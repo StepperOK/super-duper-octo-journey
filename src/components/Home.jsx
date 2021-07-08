@@ -13,42 +13,46 @@ import { Card } from "./Card";
 import { Pagination } from "./Pagination";
 import { Modal } from "./Modal";
 import { useHistory, useParams } from "react-router";
-
+import { Alert } from "./Alert";
+/* МОЛИТВА БОГАМ ФРОНТЕНДА
+О Великий JavaScript, React,Redux и иже с ними
+Живите долго
+P.S фантазия закончилась*/
 export const Home = React.memo(() => {
 
   const history = useHistory();
   //Получаем значение из параметра в url
   let { page } = useParams();
-  
-  
+
+
   const dispatch = useDispatch();
   //Получение данных из стейта
-  const { items: users, currentPage, pageLimit, isLoaded } = useSelector(
+  const { items: users, currentPage, pageLimit, isLoaded, error } = useSelector(
     ({ users }) => users
-    );
+  );
   /*При запуске приложения, после загрузки пользовтелей, 
 показывваем первую страницу с пользователями*/
-    React.useEffect( () => {
-      //Если параметра нет, то устанавливаем его беря значение из стейта
-      if(!page){
-        history.push(`/${currentPage}`);
-      }else {
-        //Если параметр установлен, то передаём его в стей. Т.к. параметр приходит строкой,
-        //перед тем как передавать его приводим к числу
-        dispatch( setPage({page: +page}) )
-      }
-      // eslint-disable-next-line
-    },[]);
-    React.useEffect( () => {
-      if (isLoaded) {
-        //Определяем начального пользователя для текущего номера страницы
-        const offset = (currentPage - 1) * pageLimit;
-        //Устанавливаем массив из узеров для вывода на страницу
-        setCurrentUsers(users.slice(offset, offset + pageLimit));
-      }
+  React.useEffect(() => {
+    //Если параметра нет, то устанавливаем его беря значение из стейта
+    if (!page) {
+      history.push(`/${currentPage}`);
+    } else {
+      //Если параметр установлен, то передаём его в стей. Т.к. параметр приходит строкой,
+      //перед тем как передавать его приводим к числу
+      dispatch(setPage({ page: +page }))
+    }
     // eslint-disable-next-line
-    },[isLoaded, users, currentPage])
-    //Получаем всех пользователей
+  }, []);
+  React.useEffect(() => {
+    if (isLoaded) {
+      //Определяем начального пользователя для текущего номера страницы
+      const offset = (currentPage - 1) * pageLimit;
+      //Устанавливаем массив из узеров для вывода на страницу
+      setCurrentUsers(users.slice(offset, offset + pageLimit));
+    }
+    // eslint-disable-next-line
+  }, [isLoaded, users, currentPage])
+  //Получаем всех пользователей
   React.useEffect(() => {
     dispatch(fetchUsers());
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -115,29 +119,34 @@ export const Home = React.memo(() => {
 
   return (
     <>
-      <div className="container">
-        <Header onOpenForm={handleOpenForm} />
-        <div className="cards">
-          {currentUsers.map((user) => (
-            <Card
-              key={user.id}
-              name={user.name}
-              surname={user.surname}
-              desc={user.desc}
-              color={colors[getIndex(colors.length)]}
-              onDelUser={() => handleDelUser(user.id)}
-              onEditUser={() => handleEditUser(user.id)}
+      {
+        error
+          ? <Alert message={error} />
+          :
+          <div className="container">
+            <Header onOpenForm={handleOpenForm} />
+            <div className="cards">
+              {currentUsers.map((user) => (
+                <Card
+                  key={user.id}
+                  name={user.name}
+                  surname={user.surname}
+                  desc={user.desc}
+                  color={colors[getIndex(colors.length)]}
+                  onDelUser={() => handleDelUser(user.id)}
+                  onEditUser={() => handleEditUser(user.id)}
+                />
+              ))}
+            </div>
+            <Pagination
+              className="center"
+              count={lengthPagination}
+              page={currentPage}
+              onChange={handlePageChange}
             />
-          ))}
-        </div>
-      </div>
+          </div>
+      }
 
-      <Pagination
-        className="center"
-        count={lengthPagination}
-        page={currentPage}
-        onChange={handlePageChange}
-      />
       {
         //Модальное окно с формой для добаления пользователя
         openForm && (

@@ -4,9 +4,9 @@ import { yupResolver } from '@hookform/resolvers/yup';
 import PropTypes from 'prop-types';
 
 const schema = yup.object().shape({
-    name: yup.string().required(),
-    surname: yup.string().required(),
-    desc: yup.string()
+  name: yup.string().required(),
+  surname: yup.string().required(),
+  desc: yup.string()
 })
 
 
@@ -15,7 +15,7 @@ export const Modal = ({ onSubmit, onCloseForm, usrObj }) => {
     resolver: yupResolver(schema),
     defaultValues: usrObj
   }
-  const { register, handleSubmit, formState: {errors} } = useForm(param);
+  const { register, handleSubmit, formState: { errors } } = useForm(param);
   return (
     <div className="overlay modal__add">
       <div className="modal-content">
@@ -41,9 +41,9 @@ export const Modal = ({ onSubmit, onCloseForm, usrObj }) => {
             </button>
             {
               usrObj
-              ? <button type="submit" className="waves-effect waves-green btn right">Edit</button>
-              : <button type="submit" className="waves-effect waves-green btn right">Add</button>
-            }           
+                ? <button type="submit" className="waves-effect waves-green btn right">Edit</button>
+                : <button type="submit" className="waves-effect waves-green btn right">Add</button>
+            }
           </div>
         </form>
       </div>

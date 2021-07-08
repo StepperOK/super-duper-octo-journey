@@ -1,3 +1,6 @@
+html {
+  background-color: rgb(255, 252, 252);
+}
 #root {
   position: relative;
 }
@@ -24,7 +27,7 @@
 }
 
 .menu-item:hover {
-  background-color: #3949ab;
+  background-color: #3445a7;
 }
 
 nav i.material-icons {
@@ -33,10 +36,11 @@ nav i.material-icons {
 
 .card-item {
   border: 1px solid #eeeeee;
-  border-radius: 5px;
+  border-radius: 25px;
   padding: 20px;
   display: flex;
   align-items: center;
+  background-color:#ffffff;
 }
 
 .card-item i {
@@ -59,28 +63,8 @@ span.circle {
   border-radius: 50%;
 }
 
-.pagination li button {
-  line-height: 2rem;
-  border: none;
-  background: white;
-  border-radius: 50%;
-  cursor: pointer;
-  padding: 0 10px;
-}
-
 .pagination li.active {
-  background: white;
-}
-
-.pagination li.active button {
-  background: #3f51b5;
-  color: white;
-  cursor: default;
-}
-
-.pagination li.disabled button {
-  color: #999;
-  cursor: default;
+  background-color: #3445a7;
 }
 
 .overlay {
@@ -102,7 +86,7 @@ span.circle {
 }
 
 .modal-content {
-  background: white;
+  background: rgb(255, 248, 248);
   padding: 2rem;
   border-radius: 5px;
   bottom: none;
@@ -110,4 +94,17 @@ span.circle {
 }
 .input-field p {
   color: red;
+}
+.alert {
+  position: relative;
+  padding: 1rem 1rem;
+  margin: 1rem 0;
+  border: 1px solid transparent;
+  border-radius: .25rem;
+}
+
+.alert-danger {
+  color: #842029;
+  background-color: #f8d7da;
+  border-color: #f5c2c7;
 }
